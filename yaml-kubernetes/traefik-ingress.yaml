@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: starter-apps
+  namespace: default
+
+spec:
+  rules:
+    - host: starter-apps.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: homepage-apps
+                port:
+                  number: 80
+          - path: /about
+            pathType: Prefix
+            backend:
+              service:
+                name: aboutpage-apps
+                port:
+                  number: 80
