@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aboutpage-apps
+  labels:
+    app: aboutpage-apps
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: aboutpage-apps
+  template:
+    metadata:
+      labels:
+        app: aboutpage-apps
+    spec:
+      containers:
+        - name: aboutpage-apps
+          image: ghcr.io/tjandikaputra/kubernetes-starter-deployment:aboutpage
+          ports:
+          - name : port-http
+            containerPort: 80
+            protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: aboutpage-apps
+  labels:
+    run: aboutpage-apps
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    nodePort: 30031
+    protocol: TCP
+  selector:
+    app: aboutpage-apps

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homepage-apps
+  labels:
+    app: homepage-apps
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: homepage-apps
+  template:
+    metadata:
+      labels:
+        app: homepage-apps
+    spec:
+      containers:
+        - name: homepage-apps
+          image: ghcr.io/tjandikaputra/kubernetes-starter-deployment:homepage
+          ports:
+          - name : port-http
+            containerPort: 80
+            protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: homepage-apps
+  labels:
+    run: homepage-apps
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    nodePort: 30030
+    protocol: TCP
+  selector:
+    app: homepage-apps
